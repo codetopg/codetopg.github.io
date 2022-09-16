@@ -11,41 +11,41 @@ build_property.EnableTrimAnalyzer = true
 build_property.IncludeAllContentForSelfExtract = 
 build_property.RootNamespace = codetopg
 build_property.RootNamespace = codetopg
-build_property.ProjectDir = C:\codes\codeTopG\
+build_property.ProjectDir = C:\codes\codetopg\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\codes\codeTopG
+build_property.MSBuildProjectDirectory = C:\codes\codetopg
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/codes/codeTopG/App.razor]
+[C:/codes/codetopg/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/codes/codeTopG/Pages/Counter.razor]
+[C:/codes/codetopg/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/codes/codeTopG/Pages/FetchData.razor]
+[C:/codes/codetopg/Pages/FetchData.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/codes/codeTopG/Pages/Index.razor]
+[C:/codes/codetopg/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/codes/codeTopG/Shared/SurveyPrompt.razor]
+[C:/codes/codetopg/Shared/SurveyPrompt.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/codes/codeTopG/_Imports.razor]
+[C:/codes/codetopg/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/codes/codeTopG/Shared/MainLayout.razor]
+[C:/codes/codetopg/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-vc13fti1qc
 
-[C:/codes/codeTopG/Shared/NavMenu.razor]
+[C:/codes/codetopg/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-kavs4nngag
