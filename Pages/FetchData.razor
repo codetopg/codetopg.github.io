@@ -1,5 +1,6 @@
 ﻿@page "/fetchdata"
 @inject HttpClient Http
+@using codeTopGBlazorWasm.Components
 
 <PageTitle>Weather forecast</PageTitle>
 
@@ -9,7 +10,7 @@
 
 @if (forecasts == null)
 {
-    <p><em>Loading...</em></p>
+    <LoadingSpinnerDefault></LoadingSpinnerDefault>
 }
 else
 {
