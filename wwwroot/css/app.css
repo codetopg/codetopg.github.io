@@ -72,7 +72,7 @@ a, .btn-link {
     justify-content: center;
 }
 
-    .loader-default::before, .loader::after {
+    .loader-default::before, .loader-default:after {
         content: "";
         box-sizing: border-box;
         position: absolute;
