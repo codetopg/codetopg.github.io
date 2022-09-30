@@ -68,7 +68,8 @@ a, .btn-link {
     height: 48px;
     border-radius: 50%;
     position: relative;
-    animation: rotate 1s linear infinite
+    animation: rotate 1s linear infinite;
+    justify-content: center;
 }
 
     .loader-default::before, .loader::after {
@@ -120,6 +121,7 @@ a, .btn-link {
     top: 40%;
     left: 55%;
     position: absolute;
+    justify-content: center;
 }
 
 @keyframes spin {
