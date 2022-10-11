@@ -1,0 +1,30 @@
+﻿@page "/{*path}"
+
+@if (Path is not null)
+{
+    
+    <div class="list-group-item py-3">
+        <h1 class="fs-1 text-center badge bg-danger text-wrap" style="width: 10rem; height: 5rem">Error</h1>
+    </div>
+    <div>
+        <h3 class="fs-4 text-center badge bg-info text-wrap">You are heading to a deadend!</h3>
+    </div>
+
+    <div>
+        <h2 class="fs-6 badge bg-success text-wrap">Route: @Path</h2>
+
+    </div>
+
+    <div>
+        <a href="https://codetopg.github.io" class="reload">
+            <div class="fs-3 text-center badge bg-warning text-wrap">Back Home</div>
+        </a>
+    </div>
+
+
+}
+
+@code {
+    [Parameter]
+    public string? Path { get; set; }
+}
