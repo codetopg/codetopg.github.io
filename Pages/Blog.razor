@@ -1,0 +1,58 @@
+﻿@page "/blog"
+@using codeTopGBlazorWasm.Models
+@inject IJSRuntime jsRuntime
+
+<PageTitle>My Blog</PageTitle>
+
+<button @onclick="getData" class="btn-primary" >Get Blog</button>
+@if (hashnodeData is null)
+{
+    <p>No data</p>
+   
+}
+else
+{
+    @foreach (var item in hashnodeData.data.user.publication.posts)
+    {
+         <div class="card">
+            <img src="@item.coverImage.ToString()" class="card-img-top">
+            <div class="card-text">
+                @item.title
+            </div>
+            <div class="card-body">
+                @item.brief
+            </div>
+        </div>
+    }
+    @*<table>
+        <thead>
+            <tr>
+                <td>@hashnodeData.data.user.publication.posts[1].title</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+
+                <td>@hashnodeData.data.user.publication.posts[1].brief</td>
+            </tr>
+        </tbody>
+    </table>*@
+}
+
+
+@code {
+    private HashNodeModel? hashnodeData;
+
+    private async Task getData() 
+    {
+        hashnodeData = await jsRuntime.InvokeAsync<HashNodeModel>("getHashNodeInterop.getData");
+        //Console.WriteLine("data from get" + hashnodeData);
+
+    }
+
+    //protected override void OnInitialized()
+    //{
+    //    getData();
+    //}
+
+}
