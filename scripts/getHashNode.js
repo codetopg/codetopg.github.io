@@ -23,7 +23,7 @@ getHashNodeInterop.getData = async function gql() {
         body: JSON.stringify({ query })
     });
     const body = await response.json();
-    console.log(body);
+    //console.log(body);
     return body;
     
 }
