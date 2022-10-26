@@ -4,46 +4,39 @@
 
 <PageTitle>My Blog</PageTitle>
 
-<button @onclick="getData" class="btn-primary" >Get Blog</button>
+<button @onclick="getData" class="btn-primary">Get Blog</button>
 @if (hashnodeData is null)
 {
     <p>No data</p>
-   
+
 }
 else
 {
     @foreach (var item in hashnodeData.data.user.publication.posts)
     {
-         <div class="card">
-            <img src="@item.coverImage.ToString()" class="card-img-top">
-            <div class="card-text">
-                @item.title
-            </div>
-            <div class="card-body">
-                @item.brief
+        <div class="container d-grid gap-3">
+            <div class="row p-2 bg-light border">
+                <div class="col-lg-6">
+                    <img src="@item.coverImage.ToString()" class="img-fluid">
+                </div>
+                <div class="col-lg-6">
+                    <div class="card-text p-2 bg-light border text-md-center fw-bold">
+                        @item.title
+                    </div>
+                    <div class="card-body">
+                        @item.brief
+                    </div>
+                </div>
             </div>
         </div>
     }
-    @*<table>
-        <thead>
-            <tr>
-                <td>@hashnodeData.data.user.publication.posts[1].title</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-
-                <td>@hashnodeData.data.user.publication.posts[1].brief</td>
-            </tr>
-        </tbody>
-    </table>*@
 }
 
 
 @code {
     private HashNodeModel? hashnodeData;
 
-    private async Task getData() 
+    private async Task getData()
     {
         hashnodeData = await jsRuntime.InvokeAsync<HashNodeModel>("getHashNodeInterop.getData");
         //Console.WriteLine("data from get" + hashnodeData);
