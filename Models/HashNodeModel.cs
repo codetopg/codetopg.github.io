@@ -1,4 +1,6 @@
-﻿namespace codeTopGBlazorWasm.Models
+﻿using Microsoft.AspNetCore.Components;
+
+namespace codeTopGBlazorWasm.Models
 {
     public class HashNodeModel
     {
@@ -26,7 +28,7 @@
         public string brief { get; set; }
         public string slug { get; set; }
         public string coverImage { get; set; }
-
+        public string contentMarkdown { get; set; }
     }
 
 }

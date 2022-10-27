@@ -1,0 +1,11 @@
+﻿<h3>PostContent</h3>
+<div>
+    @Slug
+    @Content
+</div>
+
+@code {
+    [Parameter] public string? Content { get; set; }
+    [Parameter] public string? Slug { get; set; }
+
+}
