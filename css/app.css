@@ -179,3 +179,15 @@ a, .btn-link {
         -webkit-transform: scale(1.0)
     }
 }
+
+
+.image--center{
+   
+}
+    .image--center.mx-auto {
+        width: 70%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
