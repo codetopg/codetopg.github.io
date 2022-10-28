@@ -1,16 +1,39 @@
 ﻿@page "/blog"
-@using System.Web
 @using codeTopGBlazorWasm.Models
 @using codeTopGBlazorWasm.Components
 @inject IJSRuntime jsRuntime
 
 <PageTitle>My Blog</PageTitle>
 
-<button @onclick="getData" class="btn-primary">Get Blog</button>
+@if (query is null)
+{
+    <button @onclick="getAllData" class="btn-primary">Get Blog</button>
+}
+
+@if (post is null)
+{
+    @if (hashnodeData is null)
+    {
+        <p> no post try to get some</p>
+    }
+    
+}
+else
+{
+    <ModalComponent Show="readmore" OnClose="DialogCancelHandler">
+        <Title>@post.data.post.title</Title>
+        <Body>            
+            @((MarkupString)@post.data.post.content)
+        </Body>
+    </ModalComponent>
+}
+
+
+
+@*get posts for populated page*@
 @if (hashnodeData is null)
 {
-    <p>No data</p>
-
+    <p>Click the Get Blog button</p>
 }
 else
 {
@@ -25,22 +48,9 @@ else
                     <div class="card-text p-2 bg-light border text-md-center fw-bold">
                         @item.title
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" @onclick=@(() => GetPost(item.slug))>
                         @item.brief
-                    </div>
-                    
-                    
-                    <div class="card-body">
-                        
-                         <p @onclick=ToggleReadMore>read more...</p>
-                         @if (readmore==true)
-                        {
-                            
-                            <PostContent Content="@item.contentMarkdown"
-                            Slug="@item.slug"></PostContent>                            
-                        }
-                        
-
+                        read more...
                     </div>
                 </div>
             </div>
@@ -51,28 +61,35 @@ else
 
 @code {
     private HashNodeModel? hashnodeData;
+    private string? query;
+    private HashNodePostModel? post;
     private bool readmore = false;
+
+    private void DialogCancelHandler(MouseEventArgs e)
+    {
+        readmore = false;
+        post.data.post.content = "";
+    }
+
+
+    private async Task GetPost(string slug)
+    {
+        //Console.WriteLine("slug in getpost " + slug);
+        readmore = true;
+        query = $"{{post(slug:\"{slug}\", hostname:\"codetopg\") {{ content title }} }}";
+        post = await jsRuntime.InvokeAsync<HashNodePostModel>("getHashNodeInterop.getData", query);
+        //Console.WriteLine("Title from post"+post.data.post.title);
+    }
+
+    private async Task getAllData()
+    {
+        query = "{user(username: \"codetopg\") {publication {posts(page: 0) {slug title brief coverImage dateUpdated }}}}";
+        hashnodeData = await jsRuntime.InvokeAsync<HashNodeModel>("getHashNodeInterop.getData", query);
+        //Console.WriteLine("data from get" + hashnodeData);
+    }
+
    
 
 
-    private void ToggleReadMore() 
-    {
-        readmore = !readmore;
-    }
-
-    private async Task getData()
-    {
-        hashnodeData = await jsRuntime.InvokeAsync<HashNodeModel>("getHashNodeInterop.getData");
-        //Console.WriteLine("data from get" + hashnodeData);
-        
-
-    }
-
-    //protected override void OnInitialized()
-    //{
-    //    getData();
-    //}
-
-    
 
 }

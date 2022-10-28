@@ -1,4 +1,5 @@
-﻿<h3>PostContent</h3>
+﻿@page "/blog/{slug}"
+<h3>PostContent</h3>
 <div>
     @Slug
     @Content
@@ -7,5 +8,4 @@
 @code {
     [Parameter] public string? Content { get; set; }
     [Parameter] public string? Slug { get; set; }
-
 }

@@ -1,0 +1,25 @@
+﻿@if (Show)
+{
+    <div class="dialog-container overflow-auto modal-dialog-centered">
+        <div class="dialog modal-lg">
+            <div class="dialog-title fixed-top text-center font-weight-bold fs-5">
+                @Title                
+                <button class="btn-close bg-white" @onclick=OnClose></button>
+            </div>
+            <div class="dialog-body">@Body</div>
+            <div class="dialog-buttons">
+                <div class="modal-footer">                
+                    <button type="button" class="btn btn-secondary" @onclick=OnClose>Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@code {
+    [Parameter] public bool Show { get; set; }
+    [Parameter] public RenderFragment? Title { get; set; }
+
+    [Parameter] public RenderFragment? Body { get; set; }
+
+    [Parameter] public EventCallback<MouseEventArgs> OnClose { get; set; }
+}

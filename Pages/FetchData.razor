@@ -30,16 +30,6 @@ else
                       Icon="@weatherData.list[i].weather[0].icon" />
             i += 7;
         }
-        
-        @*@foreach (var item in weatherData.list.Take(6))
-        {
-            <WeatherComponent Seconds="@item.dt"
-                   LowTemp="@item.main.temp_min"
-                   HighTemp="@item.main.temp_max"
-                   Description="@item.weather[0].description"
-                   Icon="@item.weather[0].icon" />
-                   
-        }*@
     </div>
 }
 
