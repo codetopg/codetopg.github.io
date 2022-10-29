@@ -10,6 +10,11 @@
     <button @onclick="getAllData" class="btn-primary">Get Blog</button>
 }
 
+@if (spinner)
+{
+    <LoadingSpinnerSpin></LoadingSpinnerSpin>
+}
+
 @if (post is null)
 {
     @if (hashnodeData is null)
@@ -64,6 +69,7 @@ else
     private string? query;
     private HashNodePostModel? post;
     private bool readmore = false;
+    private bool spinner = false;
 
     private void DialogCancelHandler(MouseEventArgs e)
     {
@@ -74,22 +80,22 @@ else
 
     private async Task GetPost(string slug)
     {
-        //Console.WriteLine("slug in getpost " + slug);
+        spinner = true;
         readmore = true;
         query = $"{{post(slug:\"{slug}\", hostname:\"codetopg\") {{ content title }} }}";
         post = await jsRuntime.InvokeAsync<HashNodePostModel>("getHashNodeInterop.getData", query);
         //Console.WriteLine("Title from post"+post.data.post.title);
+        spinner = false;
+        await Task.CompletedTask;
     }
 
     private async Task getAllData()
     {
+        spinner = true;
         query = "{user(username: \"codetopg\") {publication {posts(page: 0) {slug title brief coverImage dateUpdated }}}}";
         hashnodeData = await jsRuntime.InvokeAsync<HashNodeModel>("getHashNodeInterop.getData", query);
         //Console.WriteLine("data from get" + hashnodeData);
+        spinner = false;
+        await Task.CompletedTask;
     }
-
-   
-
-
-
 }
