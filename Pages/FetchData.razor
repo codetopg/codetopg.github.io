@@ -6,6 +6,10 @@
 @inject IJSRuntime jsRuntime
 
 <PageTitle>Open API Weather forecast</PageTitle>
+@if (spinner)
+{
+     <LoadingSpinnerSpin></LoadingSpinnerSpin>
+}
 
 @if (weatherData is null)
 {
@@ -15,7 +19,7 @@ else
 {
     while (weatherData is null)
     {
-      <LoadingSpinnerSpin></LoadingSpinnerSpin>  
+      <LoadingSpinnerDefault></LoadingSpinnerDefault>  
     }
 
     <h3>Weather forecast for: @weatherData.city.name</h3>
@@ -51,16 +55,22 @@ else
     private OpenWeatherModel? weatherData;
     private string _url ="";
     private string? errorMessages;
+    private bool spinner = false;
 
     private async Task GetPosition()
     {
+        spinner = true;
         position = await jsRuntime.InvokeAsync<Location>("getLocationInterop.getLocation");
+        spinner = false;
+        await Task.CompletedTask;
     }
 
     public async Task GetForcast()
     {
+
         try
         {
+            spinner = true;
             string APIKey = "1f7e64a683b4c7085e693af48155414a";
             _url = $"https://api.openweathermap.org/data/2.5/forecast?" +
                 $"lat={position.Latitude}" +
@@ -68,12 +78,16 @@ else
                 $"&units=metric" +
                 $"&appid={APIKey}";
             weatherData = await http.GetFromJsonAsync<OpenWeatherModel>(_url);
-            //Console.WriteLine(_url);
+            Console.WriteLine(_url);
+            spinner = false;
+            await Task.CompletedTask;
+
         }
         catch (Exception e)
         {
             errorMessages = e.Message;
         }
+        
     }
 
     protected override async Task OnInitializedAsync()
@@ -85,10 +99,9 @@ else
         }
         catch (Exception e)
         {
-            errorMessages = $"Geo Location is not supported. You must enable Geo Location to use this feature! {e.HelpLink}";
+            errorMessages = $"Geo Location is not supported. You must enable Geo Location to use this feature!";
             Console.WriteLine(e.Message);
         }
-
     }
 
     public class Location
