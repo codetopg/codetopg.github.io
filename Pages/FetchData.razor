@@ -1,8 +1,9 @@
 ﻿@page "/fetchdata"
+@using codeTopGBlazorWasm.ApiServices
 @using codeTopGBlazorWasm.Components
-@using codeTopGBlazorWasm.Models
-@using System.Text
-@inject HttpClient http
+@using codeTopGBlazorWasm.Models 
+@implements IDisposable
+@inject IGetWeatherApi getWeather
 @inject IJSRuntime jsRuntime
 
 <PageTitle>Open API Weather forecast</PageTitle>
@@ -38,75 +39,50 @@ else
 }
 
 
-@if (position == null)
+@if (coods == null)
 {
     <LoadingSpinnerDefault></LoadingSpinnerDefault>
 }
 else
 {
-    if(_url.Length == 0)
+    @*if(weatherData is not null)
     {
-        <button @onclick="GetForcast" class="btn btn-primary">Get Forcast for the next 5 days</button>
-    }
+    }*@
+    <button @onclick="GetForcast" class="btn btn-primary">Get Forcast for the next 5 days</button>
+
 }
 
+<button class="btn btn-primary" @onclick=GetPosition >Get Coords</button>
+
 @code {
-    private Location? position;
-    private OpenWeatherModel? weatherData;
-    private string _url ="";
+    private GetCoords coods;
+    private CoordsModel location;
+    //private GetWeatherApi weather; inject Interface on top
+    public OpenWeatherModel weatherData { get; set; }
     private string? errorMessages;
     private bool spinner = false;
 
     private async Task GetPosition()
     {
         spinner = true;
-        position = await jsRuntime.InvokeAsync<Location>("getLocationInterop.getLocation");
+        location = await coods.GetCoord();
+        //Console.WriteLine("coods on blazor " + location.Longitude + " latitude" + location.Latitude);
         spinner = false;
         await Task.CompletedTask;
     }
 
     public async Task GetForcast()
     {
+        weatherData = await getWeather.GetForcast();
 
-        try
-        {
-            spinner = true;
-            string APIKey = "1f7e64a683b4c7085e693af48155414a";
-            _url = $"https://api.openweathermap.org/data/2.5/forecast?" +
-                $"lat={position.Latitude}" +
-                $"&lon={position.Longitude}" +
-                $"&units=metric" +
-                $"&appid={APIKey}";
-            weatherData = await http.GetFromJsonAsync<OpenWeatherModel>(_url);
-            Console.WriteLine(_url);
-            spinner = false;
-            await Task.CompletedTask;
-
-        }
-        catch (Exception e)
-        {
-            errorMessages = e.Message;
-        }
-        
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        try
-        {
-            await GetPosition();            
-
-        }
-        catch (Exception e)
-        {
-            errorMessages = $"Geo Location is not supported. You must enable Geo Location to use this feature!";
-            Console.WriteLine(e.Message);
-        }
+        coods = new(jsRuntime);
+      
     }
 
-    public class Location
-    {
-        public Double Longitude { get; set; }
-        public Double Latitude { get; set; }
-    }
+
+    public void Dispose() { }
 }
