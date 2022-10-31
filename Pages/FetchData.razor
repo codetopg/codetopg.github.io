@@ -53,6 +53,11 @@ else
 }
 
 <button class="btn btn-primary" @onclick=GetPosition >Get Coords</button>
+@if (location is not null)
+{
+    <p>coords: @location.Longitude and @location.Latitude</p>
+}
+
 
 @code {
     private GetCoords coods;

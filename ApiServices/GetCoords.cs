@@ -14,9 +14,10 @@ namespace codeTopGBlazorWasm.ApiServices
 
         public async Task<CoordsModel> GetCoord()
         {
-            
+            //CoordsModel coords;
             return await jsRuntime.InvokeAsync<CoordsModel>("getLocationInterop.getLocation");
-           
+            //Console.WriteLine("coord form GetCoord"+ coords.Longitude.ToString() + coords.Latitude.ToString());
+            //return coords;
         }
 
         public void Dispose()
