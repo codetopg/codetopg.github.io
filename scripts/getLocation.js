@@ -12,10 +12,10 @@ getLocationInterop.getLocation = async function () {
             latitude: position.coords.latitude
         }
         console.log("coods from js, Long ", coords.longitude + " Latitude" + coords.latitude);
-        return coords
+        return coords;
     }
     else
     {
-        throw Error = "Browser not support Geo location!"
+        throw Error = "Browser not support Geo location!";
     }
 }
