@@ -1,7 +1,8 @@
 ﻿@page "/blog"
+@using codeTopGBlazorWasm.ApiServices
 @using codeTopGBlazorWasm.Models
 @using codeTopGBlazorWasm.Components
-@inject IJSRuntime jsRuntime
+@inject IHashNodeGqlApi hashNodeGql
 
 <PageTitle>My Blog</PageTitle>
 
@@ -74,7 +75,7 @@ else
     private void DialogCancelHandler(MouseEventArgs e)
     {
         readmore = false;
-        post.data.post.content = string.Empty;
+        post!.data.post.content = string.Empty;
     }
 
 
@@ -82,10 +83,7 @@ else
     {
         spinner = true;
         readmore = true;
-        query = $"{{post(slug:\"{slug}\", hostname:\"\") {{ content title }} }}";
-        Console.WriteLine("full query"+ query);
-        post = await jsRuntime.InvokeAsync<HashNodePostModel>("getHashNodeInterop.getData", query);
-        //Console.WriteLine("Title from post"+post.data.post.title);
+        post = await hashNodeGql.GetPost(slug);
         spinner = false;
         await Task.CompletedTask;
     }
@@ -93,14 +91,12 @@ else
     private async Task GetAllBlogPosts()
     {
         spinner = true;
-        query = "{user(username: \"codetopg\") {publication {posts(page: 0) {slug title brief coverImage dateUpdated }}}}";
-        hashnodeData = await jsRuntime.InvokeAsync<HashNodeModel>("getHashNodeInterop.getData", query);
-        //Console.WriteLine("data from get" + hashnodeData);
+        hashnodeData = await hashNodeGql.GetAllBlogPosts();
         spinner = false;
         await Task.CompletedTask;
     }
 
     public void Dispose() 
-    {    
+    { 
     }
 }
