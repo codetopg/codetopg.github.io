@@ -20,6 +20,8 @@ namespace codeTopGBlazorWasm.Models
     public class Publication
     {
         public Post[] posts { get; set; }
+        public string title { get; set; }
+
     }
 
     public class Post
@@ -30,5 +32,4 @@ namespace codeTopGBlazorWasm.Models
         public string coverImage { get; set; }
         public string contentMarkdown { get; set; }
     }
-
 }
