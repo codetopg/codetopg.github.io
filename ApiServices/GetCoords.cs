@@ -5,7 +5,7 @@ namespace codeTopGBlazorWasm.ApiServices
 {
     public class GetCoords : IGetCoords, IDisposable
     {
-        private readonly IJSRuntime jsRuntime;
+        public readonly IJSRuntime jsRuntime;
 
         public GetCoords(IJSRuntime jsRuntime)
         {
@@ -22,7 +22,6 @@ namespace codeTopGBlazorWasm.ApiServices
 
         public void Dispose()
         {
-
         }
     }
 }

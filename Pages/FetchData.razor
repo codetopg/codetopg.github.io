@@ -1,7 +1,7 @@
 ﻿@page "/fetchdata"
 @using codeTopGBlazorWasm.ApiServices
 @using codeTopGBlazorWasm.Components
-@using codeTopGBlazorWasm.Models 
+@using codeTopGBlazorWasm.Models
 @implements IDisposable
 @inject IGetWeatherApi getWeather
 @inject IJSRuntime jsRuntime
@@ -9,7 +9,7 @@
 <PageTitle>Open API Weather forecast</PageTitle>
 @if (spinner)
 {
-     <LoadingSpinnerSpin></LoadingSpinnerSpin>
+    <LoadingSpinnerSpin></LoadingSpinnerSpin>
 }
 
 @if (weatherData is null)
@@ -20,7 +20,7 @@ else
 {
     while (weatherData is null)
     {
-      <LoadingSpinnerDefault></LoadingSpinnerDefault>  
+        <LoadingSpinnerDefault></LoadingSpinnerDefault>
     }
 
     <h3>Weather forecast for: @weatherData.city.name</h3>
@@ -39,20 +39,31 @@ else
 }
 
 
-@if (coods == null)
+@if (coords == null)
 {
     <LoadingSpinnerDefault></LoadingSpinnerDefault>
 }
 else
 {
-    @*if(weatherData is not null)
+    @if (show)
     {
-    }*@
-    <button @onclick="GetForcast" class="btn btn-primary">Get Forcast for the next 5 days</button>
+        @if (weatherData is null)
+        {
+            <button @onclick="GetForcast" class="btn btn-primary">Get Forcast for the next 5 days</button>
+        }
+        
+    }
+   
 
 }
 
-<button class="btn btn-primary" @onclick=GetPosition >Get Coords</button>
+@if (show == false)
+{
+    <button class="btn btn-primary" @onclick=GetPosition>Get Coords</button>
+}
+
+
+
 @if (location is not null)
 {
     <p>coords: @location.Longitude and @location.Latitude</p>
@@ -60,34 +71,51 @@ else
 
 
 @code {
-    private GetCoords coods;
-    private CoordsModel location;
+    private GetCoords? coords;
+    private CoordsModel? location;
     //private GetWeatherApi weather; inject Interface on top
-    public OpenWeatherModel weatherData { get; set; }
+    public OpenWeatherModel? weatherData { get; set; }
     private string? errorMessages;
     private bool spinner = false;
+    private bool show = false;
 
     private async Task GetPosition()
     {
-        spinner = true;
-        location = await coods.GetCoord();
-        //Console.WriteLine("coods on blazor " + location.Longitude + " latitude" + location.Latitude);
-        spinner = false;
-        await Task.CompletedTask;
+        try
+        {
+            spinner = true;
+            location = await coords!.GetCoord();
+            //Console.WriteLine("coods on blazor " + location.Longitude + " latitude" + location.Latitude);
+            spinner = false;
+            show = true;
+            await Task.CompletedTask;
+        }
+        catch (Exception e)
+        {
+            errorMessages = "Enable location service to us this feature!";
+            Console.WriteLine(e.Message.ToString());
+
+        }
+
     }
 
     public async Task GetForcast()
     {
-        weatherData = await getWeather.GetForcast();
+        show = true;
+        await GetPosition();
+        double lon = location!.Longitude;
+        double lat = location.Latitude;
+        Console.WriteLine("long lat from blazor page" + lon + " lat " + lat);
+        weatherData = await getWeather.GetForcast(lon, lat);        
+        await Task.CompletedTask;
 
     }
 
     protected override void OnInitialized()
     {
-        coods = new(jsRuntime);
-      
+       coords = new(jsRuntime);
     }
 
 
-    public void Dispose() { }
+    public void Dispose() => coords?.Dispose();
 }
