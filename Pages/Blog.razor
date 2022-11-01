@@ -3,12 +3,15 @@
 @using codeTopGBlazorWasm.Models
 @using codeTopGBlazorWasm.Components
 @inject IHashNodeGqlApi hashNodeGql
+@inject IJSRuntime jsRuntime
 
 <PageTitle>My Blog</PageTitle>
 
-@if (query is null)
+
+
+@if (hashnodeData is null)
 {
-    <button @onclick="GetAllBlogPosts" class="btn-primary">Get Blog</button>
+    <button @onclick="GetAllBlogPosts" class="btn btn-primary">Get Blog</button>
 }
 
 @if (spinner)
@@ -20,15 +23,16 @@
 {
     @if (hashnodeData is null)
     {
-        <p> no post try to get some</p>
+        <p> Try to get some</p>
     }
-    
+
 }
 else
 {
     <ModalComponent Show="readmore" OnClose="DialogCancelHandler">
         <Title>@post.data.post.title</Title>
-        <Body>            
+        <Body>
+            <div @ref=focusToTop></div>
             @((MarkupString)@post.data.post.content)
         </Body>
     </ModalComponent>
@@ -67,17 +71,21 @@ else
 
 @code {
     private HashNodeModel? hashnodeData;
-    private string? query;
     private HashNodePostModel? post;
     private bool readmore = false;
     private bool spinner = false;
+    ElementReference focusToTop;
+
 
     private void DialogCancelHandler(MouseEventArgs e)
     {
         readmore = false;
         post!.data.post.content = string.Empty;
     }
-
+    private async Task FocusToTop()
+    {
+        await jsRuntime.InvokeVoidAsync("getHashNodeInterop.focusToTop", focusToTop);
+    }
 
     private async Task GetPost(string slug)
     {
@@ -85,6 +93,7 @@ else
         readmore = true;
         post = await hashNodeGql.GetPost(slug);
         spinner = false;
+        await FocusToTop();
         await Task.CompletedTask;
     }
 
@@ -96,7 +105,7 @@ else
         await Task.CompletedTask;
     }
 
-    public void Dispose() 
-    { 
+    public void Dispose()
+    {
     }
 }
