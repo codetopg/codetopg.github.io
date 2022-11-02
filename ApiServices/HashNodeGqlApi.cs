@@ -3,7 +3,7 @@ using Microsoft.JSInterop;
 
 namespace codeTopGBlazorWasm.ApiServices
 {
-    public class HashNodeGqlApi : IHashNodeGqlApi, IDisposable
+    public class HashNodeGqlApi : IHashNodeGqlApi
     {
         private readonly IJSRuntime js;
 
@@ -27,9 +27,18 @@ namespace codeTopGBlazorWasm.ApiServices
             return await js.InvokeAsync<HashNodePostModel>("getHashNodeInterop.getData",query);
         }
 
-        public void Dispose()
+        public async Task<HashNodeListPostsWithSlugModel> GetListPostsWithSlug(string slug, string hostname) 
         {
-            
+            string query = $"{{post(slug:\"{slug}\", hostname:\"{hostname}\")" +
+                $" {{ publication {{ username posts " +
+                $" {{ cuid slug title popularity dateAdded brief dateUpdated coverImage }} }} }} }}";
+            Console.WriteLine("GetListPostsWithSlug " + query);
+            return await js.InvokeAsync<HashNodeListPostsWithSlugModel>("getHashNodeInterop.getData", query);
+        
         }
+
+        //public void Dispose()
+        //{
+        //}
     }
 }

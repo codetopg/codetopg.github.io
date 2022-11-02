@@ -49,22 +49,12 @@ else
 {
     @foreach (var item in hashnodeData.data.user.publication.posts)
     {
-        <div class="container d-grid gap-3">
-            <div class="row p-2 bg-light border">
-                <div class="col-lg-3">
-                    <img src="@item.coverImage.ToString()" class="img-fluid">
-                </div>
-                <div class="col-lg-9">
-                    <div class="card-text p-2 bg-light border text-md-center fw-bold">
-                        @item.title
-                    </div>
-                    <div class="card-body" @onclick=@(() => GetPost(item.slug))>
-                        @item.brief
-                        read more...
-                    </div>
-                </div>
-            </div>
-        </div>
+
+        <PostsContent CoverImage="@item.coverImage"
+              Title="@item.title"
+              Brief="@item.brief"
+              onClickGetSlug=@(() => GetPost(item.slug))></PostsContent>
+
     }
 }
 
@@ -89,6 +79,7 @@ else
 
     private async Task GetPost(string slug)
     {
+        //Console.WriteLine("slug on blog "+ slug);
         spinner = true;
         readmore = true;
         post = await hashNodeGql.GetPost(slug);

@@ -2,6 +2,7 @@
 
 namespace codeTopGBlazorWasm.Models
 {
+
     public class HashNodeModel
     {
         public Data data { get; set; }
@@ -20,16 +21,21 @@ namespace codeTopGBlazorWasm.Models
     public class Publication
     {
         public Post[] posts { get; set; }
-        public string title { get; set; }
-
     }
 
     public class Post
     {
-        public string title { get; set; }
-        public string brief { get; set; }
+        public string cuid { get; set; }
         public string slug { get; set; }
+        public string title { get; set; }
+        public float popularity { get; set; }
+        public int totalReactions { get; set; }
+        public bool partOfPublication { get; set; }
+        public DateTime dateAdded { get; set; }
+        public string brief { get; set; }
+        public DateTime? dateUpdated { get; set; }
+        public object dateFeatured { get; set; }
         public string coverImage { get; set; }
-        public string contentMarkdown { get; set; }
     }
+
 }

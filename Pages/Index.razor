@@ -1,19 +1,81 @@
 ﻿@page "/"
+@using codeTopGBlazorWasm.ApiServices
+@using codeTopGBlazorWasm.Components
+@using codeTopGBlazorWasm.Models
+@inject IHashNodeGqlApi getListPosts
 
 <PageTitle>Codetopg</PageTitle>
 
 <div class="card">
     projects
+    @if (ListProjectPosts is not null)
+    {
+        foreach (var item in ListProjectPosts.data.post.publication.posts)
+        {
+            <PostsContent CoverImage="@item.coverImage"
+                  Title="@item.title"
+                  Brief="@item.brief"></PostsContent>
+        }
+
+    }
+    <button class="btn btn-outline-success" @onclick="GetListMyProjects">Get more posts</button>
 </div>
 <div class="card mt-3">
     study
+    @if (ListStudyPosts is not null)
+    {
+        foreach (var item in ListStudyPosts.data.post.publication.posts)
+        {
+            <PostsContent CoverImage="@item.coverImage"
+                  Title="@item.title"
+                  Brief="@item.brief"></PostsContent>
+        }
+
+    }
+
+    <button class="btn btn-outline-primary" @onclick=GetListStudyPosts>Get more posts</button>
 </div>
 <div class="card mt-3">
     lastest blog
+    @if (LastestBlog is not null)
+    {
+        foreach (var item in LastestBlog.data.post.publication.posts)
+        {
+            <PostsContent CoverImage="@item.coverImage"
+                  Title="@item.title"
+                  Brief="@item.brief"></PostsContent>
+        }
+
+    }
+    <button class="btn btn-outline-info" @onclick=GetLastestBlogPosts>Get more posts</button>
 </div>
 
-@code{
+@code {
+    HashNodeListPostsWithSlugModel? ListStudyPosts;
+    HashNodeListPostsWithSlugModel? ListProjectPosts;
+    HashNodeListPostsWithSlugModel? LastestBlog;
 
+
+    private async Task GetListStudyPosts()
+    {
+        ListStudyPosts = await getListPosts.GetListPostsWithSlug("studying", "studying");
+        //Console.WriteLine(ListPosts.data.post.publication.posts[0].coverImage);
+
+        await Task.CompletedTask;
+    }
+    private async Task GetListMyProjects()
+    {
+        ListProjectPosts = await getListPosts.GetListPostsWithSlug("project-2", "myprojects");
+        //Console.WriteLine(ListProjectPosts.data.post.publication.posts[0].cuid);
+
+        await Task.CompletedTask;
+    }
+    private async Task GetLastestBlogPosts() 
+    {
+        LastestBlog = await getListPosts.GetListPostsWithSlug("my-blog-for-codetopg", "codetopg");
+
+        await Task.CompletedTask;
+    }
 }
 
 

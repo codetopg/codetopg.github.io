@@ -6,5 +6,6 @@ namespace codeTopGBlazorWasm.ApiServices
     {
         Task<HashNodePostModel> GetPost(string slug);
         Task<HashNodeModel> GetAllBlogPosts();
+        Task<HashNodeListPostsWithSlugModel> GetListPostsWithSlug(string slug, string hostname);
     }
 }
