@@ -1,6 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Codetopg's journey</a>
+        <a class="navbar-brand text-center" href="">Codetopg's journey</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -9,6 +9,13 @@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
+        <div class="nav-item px-4">
+            <NavLink class="nav-link">
+                <a href="https://stackoverflow.com/users/6716449/tomdinh" target="_blank">
+                    <img src="https://stackoverflow.com/users/flair/6716449.png?theme=dark" class="img-fluid mx-auto" alt="profile for tomdinh at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for tomdinh at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+                </a>
+            </NavLink>
+        </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
@@ -24,27 +31,33 @@
                 <span class="oi oi-cloudy" aria-hidden="true"></span> Weather
             </NavLink>
         </div>
-        <div class="mt-5">
-            <img class="img-fluid rounded-circle d-block mx-auto"
-                 src="https://www.gravatar.com/avatar/31793858d3a0ca4af25a1feb8b50a498?s=200"
-                 alt="Avatar">
-            <h2 class="text-light text-center">Tom Dinh</h2>
-            <div class="social-links mt-1 text-center">
-                <a href="https://twitter.com/codetopg" target="_blank">
-                    <i class="bi-twitter"></i>
-                </a>
-                <a href="https://www.facebook.com/codetopg" target="_blank">
-                    <i class="bi-facebook"></i>
-                </a>
-                <a href="https://www.instagram.com/codetopg/" target="_blank">
-                    <i class="bi-instagram"></i>
-                </a>
-                <a href="https://stackoverflow.com/users/6716449" target="_blank">
-                    <i class="bi-stack-overflow"></i>
-                </a>
-                <a href="https://github.com/codetopg" target="_blank">
-                    <i class="bi-github"></i>
-                </a>
+        <div class="nav-item px-3" @onclick="ToggleContact">
+            <NavLink class="nav-link" style="cursor:pointer; cursor:hand;">
+                <span class="oi oi-person" aria-hidden="true"></span>
+                <span>Contact me</span>
+                <i class="@IconClassContact" aria-hidden="true"></i>
+            </NavLink>
+        </div>
+        <div style="@ContactStyleShow">
+            <div class="mt-5">
+                <img class="img-fluid rounded-circle d-block mx-auto"
+                     src="https://www.gravatar.com/avatar/31793858d3a0ca4af25a1feb8b50a498?s=150"
+                     alt="Avatar">
+
+                <div class="mt-4 text-center bi">
+                    <a href="https://twitter.com/codetopg" target="_blank">
+                        <i class="bi bi-twitter mx-2" style="font-size: 2rem"></i>
+                    </a>
+                    <a href="https://www.facebook.com/codetopg" target="_blank">
+                        <i class="bi bi-facebook mx-2" style="font-size: 2rem"></i>
+                    </a>
+                    <a href="https://www.instagram.com/codetopg/" target="_blank">
+                        <i class="bi bi-instagram mx-2" style="font-size: 2rem"></i>
+                    </a>
+                    <a href="https://github.com/codetopg" target="_blank">
+                        <i class="bi bi-github mx-2" style="font-size: 2rem"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
@@ -52,11 +65,20 @@
 
 @code {
     private bool collapseNavMenu = true;
+    private bool HideContact = true;
+
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string? ContactStyleShow => HideContact ? "visibility: hidden;" : "visibility: visible";
+    private string? IconClassContact => HideContact ? "oi oi-chevron-right" : "oi oi-chevron-bottom";
+
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+    private void ToggleContact()
+    {
+        HideContact = !HideContact;
     }
 }
