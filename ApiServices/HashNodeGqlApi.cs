@@ -23,7 +23,7 @@ namespace codeTopGBlazorWasm.ApiServices
         public async Task<HashNodePostModel> GetPost(string slug)
         {
             string query = $"{{post(slug:\"{slug}\", hostname:\"\")" +
-                $" {{ content title }} }}";
+                $" {{ slug title dateAdded content coverImage }} }}";
             return await js.InvokeAsync<HashNodePostModel>("getHashNodeInterop.getData",query);
         }
 

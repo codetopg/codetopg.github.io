@@ -16,8 +16,6 @@ namespace codeTopGBlazorWasm.ApiServices
             _httpClient = httpClient ?? throw new AggregateException(nameof(httpClient));
         }
 
-
-
         public async Task<OpenWeatherModel> GetForcast(double lon, double lat)
         {
             //HttpClientConfig();

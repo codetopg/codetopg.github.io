@@ -1,26 +1,26 @@
 ﻿@if (Show)
 {
-    <div class="dialog-container overflow-auto modal-dialog-centered">
+    <div class="dialog-container modal-dialog-centered overflow-scroll">
         <div class="dialog modal-lg">
             <div class="dialog-title fixed-top text-center font-weight-bold fs-5">
-
-                @Title                
+                @Title
                 <button class="btn-close bg-white" @onclick=OnClose></button>
             </div>
+            @if (CoverImage is not null)
+            {
+                <img src="@CoverImage.ToString()" class="img-fluid" />
+            }
             <div class="dialog-body">@Body</div>
-            <div class="dialog-buttons">
-                <div class="modal-footer">                
+            <div class="dialog-buttons">               
                     <button type="button" class="btn btn-secondary" @onclick=OnClose>Close</button>
-                </div>
             </div>
         </div>
     </div>
 }
 @code {
     [Parameter] public bool Show { get; set; }
+    [Parameter] public string? CoverImage { get; set; }
     [Parameter] public RenderFragment? Title { get; set; }
-
     [Parameter] public RenderFragment? Body { get; set; }
-
     [Parameter] public EventCallback<MouseEventArgs> OnClose { get; set; }
 }

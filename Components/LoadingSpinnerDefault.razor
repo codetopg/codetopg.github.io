@@ -1,1 +1,8 @@
-﻿<div class="loader-default"></div>
+﻿@if (spinner)
+{
+    <div class="loader-default"></div>
+
+}
+@code {
+    [Parameter] public bool spinner { get; set; } = false;
+}

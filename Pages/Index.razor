@@ -1,80 +1,140 @@
 ﻿@page "/"
-@using codeTopGBlazorWasm.ApiServices
-@using codeTopGBlazorWasm.Components
-@using codeTopGBlazorWasm.Models
 @inject IHashNodeGqlApi getListPosts
+@inherits Blog
 
 <PageTitle>Codetopg</PageTitle>
-
-<div class="card">
-    projects
-    @if (ListProjectPosts is not null)
+<div>
+    @if (spinnerBlog || spinnerProj || spinnerStudy == false)
     {
-        foreach (var item in ListProjectPosts.data.post.publication.posts)
-        {
-            <PostsContent CoverImage="@item.coverImage"
-                  Title="@item.title"
-                  Brief="@item.brief"></PostsContent>
-        }
-
+        <LoadingSpinnerSpin></LoadingSpinnerSpin>
     }
-    <button class="btn btn-outline-success" @onclick="GetListMyProjects">Get more posts</button>
-</div>
-<div class="card mt-3">
-    study
-    @if (ListStudyPosts is not null)
+    else
     {
-        foreach (var item in ListStudyPosts.data.post.publication.posts)
-        {
-            <PostsContent CoverImage="@item.coverImage"
-                  Title="@item.title"
-                  Brief="@item.brief"></PostsContent>
-        }
-
+        <h2>@err</h2>
     }
 
-    <button class="btn btn-outline-primary" @onclick=GetListStudyPosts>Get more posts</button>
-</div>
-<div class="card mt-3">
-    lastest blog
-    @if (LastestBlog is not null)
+    @if (post is not null)
     {
-        foreach (var item in LastestBlog.data.post.publication.posts)
+        <ModalComponent Show="readmore"
+                    OnClose="DialogCancelHandler"
+                    CoverImage="@post.data.post.coverImage">
+            <Title>@post.data.post.title</Title>
+            <Body>                
+                <div @ref=focusToTop>
+                    @((MarkupString)@post.data.post.content)
+                </div>
+            </Body>
+        </ModalComponent>
+    }
+
+
+
+    <div class="card">
+        Projects
+        <LoadingSpinnerDefault spinner=spinnerProj></LoadingSpinnerDefault>
+        @if (ListProjectPosts is not null)
         {
-            <PostsContent CoverImage="@item.coverImage"
-                  Title="@item.title"
-                  Brief="@item.brief"></PostsContent>
+            foreach (var item in ListProjectPosts.data.post.publication.posts.Take(3))
+            {
+                <PostsContent Title="@item.title"
+                      Brief="@item.brief"
+                      onClickGetSlug=@(() => GetPost(item.slug))></PostsContent>
+            }
         }
 
-    }
-    <button class="btn btn-outline-info" @onclick=GetLastestBlogPosts>Get more posts</button>
+        <button class="btn btn-outline-success">
+            <NavLink class="nav-link" href="project">
+                <span class="oi oi-briefcase" aria-hidden="true"></span>Read more projects
+            </NavLink>
+        </button>
+    </div>
+    <div class="card mt-3">
+        Studying
+        <LoadingSpinnerDefault spinner=spinnerStudy></LoadingSpinnerDefault>
+        @if (ListStudyPosts is not null)
+        {
+            foreach (var item in ListStudyPosts.data.post.publication.posts.Take(3))
+            {
+                <PostsContent Title="@item.title"
+                      Brief="@item.brief"
+                      onClickGetSlug=@(() => GetPost(item.slug))></PostsContent>
+            }
+        }
+
+        <button class="btn btn-outline-primary">
+            <NavLink class="nav-link" href="study">
+                <span class="oi oi-beaker" aria-hidden="true"></span>Read more study posts
+            </NavLink>
+        </button>
+    </div>
+    <div class="card mt-3">
+        Lastest blogs
+        <LoadingSpinnerDefault spinner=spinnerBlog></LoadingSpinnerDefault>
+        @if (LastestBlog is not null)
+        {
+            foreach (var item in LastestBlog.data.post.publication.posts.Take(3))
+            {
+                <PostsContent Title="@item.title"
+                      Brief="@item.brief"
+                      onClickGetSlug=@(() => GetPost(item.slug))></PostsContent>
+            }
+        }
+
+        <button class="btn btn-outline-info">
+            <NavLink class="nav-link" href="blog">
+                <span class="oi oi-book" aria-hidden="true"></span>Read more blog posts
+            </NavLink>
+        </button>
+    </div>
 </div>
 
 @code {
     HashNodeListPostsWithSlugModel? ListStudyPosts;
     HashNodeListPostsWithSlugModel? ListProjectPosts;
     HashNodeListPostsWithSlugModel? LastestBlog;
+    private bool spinnerProj = false;
+    private bool spinnerStudy = false;
+    private bool spinnerBlog = false;
+    private string err = string.Empty;
 
 
     private async Task GetListStudyPosts()
     {
+        spinnerStudy = true;
         ListStudyPosts = await getListPosts.GetListPostsWithSlug("studying", "studying");
         //Console.WriteLine(ListPosts.data.post.publication.posts[0].coverImage);
-
+        spinnerStudy = false;
         await Task.CompletedTask;
     }
     private async Task GetListMyProjects()
     {
+        spinnerProj = true;
         ListProjectPosts = await getListPosts.GetListPostsWithSlug("project-2", "myprojects");
         //Console.WriteLine(ListProjectPosts.data.post.publication.posts[0].cuid);
-
+        spinnerProj = false;
         await Task.CompletedTask;
     }
-    private async Task GetLastestBlogPosts() 
+    private async Task GetLastestBlogPosts()
     {
+        spinnerBlog = true;
         LastestBlog = await getListPosts.GetListPostsWithSlug("my-blog-for-codetopg", "codetopg");
-
+        spinnerBlog = false;
         await Task.CompletedTask;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await GetListMyProjects();
+            await GetListStudyPosts();
+            await GetLastestBlogPosts();
+            await Task.CompletedTask;
+        }
+        catch (Exception e)
+        {
+            err = e.Message.ToString();
+        }
     }
 }
 

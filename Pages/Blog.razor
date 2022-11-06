@@ -1,7 +1,4 @@
 ﻿@page "/blog"
-@using codeTopGBlazorWasm.ApiServices
-@using codeTopGBlazorWasm.Models
-@using codeTopGBlazorWasm.Components
 @inject IHashNodeGqlApi hashNodeGql
 @inject IJSRuntime jsRuntime
 
@@ -25,7 +22,6 @@
     {
         <p> Try to get some</p>
     }
-
 }
 else
 {
@@ -38,8 +34,6 @@ else
     </ModalComponent>
 }
 
-
-
 @*get posts for populated page*@
 @if (hashnodeData is null)
 {
@@ -49,36 +43,37 @@ else
 {
     @foreach (var item in hashnodeData.data.user.publication.posts)
     {
-
         <PostsContent CoverImage="@item.coverImage"
               Title="@item.title"
               Brief="@item.brief"
               onClickGetSlug=@(() => GetPost(item.slug))></PostsContent>
-
     }
 }
 
-
 @code {
     private HashNodeModel? hashnodeData;
-    private HashNodePostModel? post;
-    private bool readmore = false;
+    public HashNodePostModel? post;
+    public bool readmore = false;
     private bool spinner = false;
-    ElementReference focusToTop;
+    public ElementReference focusToTop;
 
 
-    private void DialogCancelHandler(MouseEventArgs e)
+    public void DialogCancelHandler(MouseEventArgs e)
     {
+        //Console.WriteLine("readmore on close"+ readmore);
         readmore = false;
         post!.data.post.content = string.Empty;
+        post.data.post.coverImage = string.Empty;
     }
-    private async Task FocusToTop()
+
+    public async Task FocusToTop()
     {
         await jsRuntime.InvokeVoidAsync("getHashNodeInterop.focusToTop", focusToTop);
     }
 
-    private async Task GetPost(string slug)
+    public async Task GetPost(string slug)
     {
+        //Console.WriteLine("read more on getpost "+readmore);
         //Console.WriteLine("slug on blog "+ slug);
         spinner = true;
         readmore = true;
