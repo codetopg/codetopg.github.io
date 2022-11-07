@@ -1,17 +1,22 @@
-﻿.dialog-container {
+﻿.Body {
+}
+.dialog-container {
     position: absolute;
-    top:0;
+    top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     background-color: rgba(0,0,0,0.6);
-    z-index: 2055;
+    z-index: 1;
+    overflow: auto;
+    position: fixed;
 }
 
 .dialog {
     background-color: white;
     margin: auto;
     width: auto;
+    
 }
 
 
@@ -23,11 +28,11 @@
 
 .dialog-body {
     padding: 4rem;
+    max-height: 80vh;
+    overflow: auto;
 }
 
 .dialog-buttons {
     background-color: silver;
     padding: .5rem;
 }
-
-

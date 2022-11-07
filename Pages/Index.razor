@@ -19,10 +19,9 @@
                     OnClose="DialogCancelHandler"
                     CoverImage="@post.data.post.coverImage">
             <Title>@post.data.post.title</Title>
-            <Body>                
-                <div @ref=focusToTop>
+            <Body>
+                @*<div @ref=focusToTop></div>*@
                     @((MarkupString)@post.data.post.content)
-                </div>
             </Body>
         </ModalComponent>
     }

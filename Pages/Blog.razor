@@ -28,7 +28,7 @@ else
     <ModalComponent Show="readmore" OnClose="DialogCancelHandler">
         <Title>@post.data.post.title</Title>
         <Body>
-            <div @ref=focusToTop></div>
+           @* <div @ref=focusToTop></div>*@
             @((MarkupString)@post.data.post.content)
         </Body>
     </ModalComponent>
@@ -66,10 +66,10 @@ else
         post.data.post.coverImage = string.Empty;
     }
 
-    public async Task FocusToTop()
-    {
-        await jsRuntime.InvokeVoidAsync("getHashNodeInterop.focusToTop", focusToTop);
-    }
+    //public async Task FocusToTop()
+    //{
+    //    await jsRuntime.InvokeVoidAsync("getHashNodeInterop.focusToTop", focusToTop);
+    //}
 
     public async Task GetPost(string slug)
     {
@@ -79,7 +79,7 @@ else
         readmore = true;
         post = await hashNodeGql.GetPost(slug);
         spinner = false;
-        await FocusToTop();
+        //await FocusToTop();
         await Task.CompletedTask;
     }
 

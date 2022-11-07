@@ -15,7 +15,8 @@ getHashNodeInterop.getData = async function gql(query) {
     return body;
 }
 
-getHashNodeInterop.focusToTop = function () {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-}
+//getHashNodeInterop.focusToTop = async function () {
+//    topModal = await document.getElementById('modal');
+//    //document.body.scrollTop = 0; // For Safari
+//    //document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+//}
