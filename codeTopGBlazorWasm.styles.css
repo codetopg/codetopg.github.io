@@ -81,20 +81,25 @@ main[b-qcwt2d25f0] {
     }
 }
 /* /Shared/ModalComponent.razor.rz.scp.css */
+.Body[b-mxzy1yo76k] {
+}
 .dialog-container[b-mxzy1yo76k] {
     position: absolute;
-    top:0;
+    top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     background-color: rgba(0,0,0,0.6);
-    z-index: 2055;
+    z-index: 1;
+    overflow: auto;
+    position: fixed;
 }
 
 .dialog[b-mxzy1yo76k] {
     background-color: white;
     margin: auto;
     width: auto;
+    
 }
 
 
@@ -106,14 +111,14 @@ main[b-qcwt2d25f0] {
 
 .dialog-body[b-mxzy1yo76k] {
     padding: 4rem;
+    max-height: 80vh;
+    overflow: auto;
 }
 
 .dialog-buttons[b-mxzy1yo76k] {
     background-color: silver;
     padding: .5rem;
 }
-
-
 /* /Shared/NavMenu.razor.rz.scp.css */
 .navbar-toggler[b-ayhkh7lv3g] {
     background-color: rgba(255, 255, 255, 0.1);
