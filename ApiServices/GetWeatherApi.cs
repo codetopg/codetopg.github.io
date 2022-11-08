@@ -20,20 +20,21 @@ namespace codeTopGBlazorWasm.ApiServices
         {
             //HttpClientConfig();
             //Console.WriteLine("LOCATION " + lat + lon);
+            myUrl.Clear();
             myUrl.Append("https://api.openweathermap.org/data/2.5/forecast?");
             myUrl.Append($"lat={lat}");
             myUrl.Append($"&lon={lon}");
             myUrl.Append("&units=metric");
             myUrl.Append("&appid=1f7e64a683b4c7085e693af48155414a");
 
-            Console.WriteLine("my url from cs " + myUrl);
+            //Console.WriteLine("my url from cs " + myUrl);
 
             var httpResponseMessage = await _httpClient.GetAsync(myUrl.ToString());
             httpResponseMessage.EnsureSuccessStatusCode();
 
             using var stream = await httpResponseMessage.Content.ReadAsStreamAsync();
             weatherData = await JsonSerializer.DeserializeAsync<OpenWeatherModel>(stream);
-            Console.WriteLine("weatherData from API service " + weatherData?.city.name);
+            //Console.WriteLine("weatherData from API service " + weatherData?.city.name);
             return weatherData;
         }
 
