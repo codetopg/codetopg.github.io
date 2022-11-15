@@ -2,8 +2,11 @@
 <div class="card text-center">
     <div class="card-header">
         <h5>
-            @Date
+            @DayOfTheWeek
         </h5>
+        <h6>
+            @DayDatetime
+        </h6>
     </div>
 
     <div class="card-body">
@@ -20,17 +23,22 @@
     [Parameter] public double HighTemp { get; set; }
     [Parameter] public double LowTemp { get; set; }
     [Parameter] public string? Description { get; set; }
-    [Parameter] public string? Icon { get; set; }
-    private string? Date;
+    [Parameter] public string? Icon { get; set; }    
+    private string? DayOfTheWeek;
+    private string? DayDatetime;
     private string? IconUrl;
     protected override void OnInitialized()
     {
-        Date = DateTimeOffset
+        DayOfTheWeek = DateTimeOffset
         .FromUnixTimeSeconds(Seconds)
         .LocalDateTime
-        .ToLocalTime().ToString("dddd \n dd-MM-yyyy",CultureInfo.InvariantCulture);
-        IconUrl = String.Format(
-        "https://openweathermap.org/img/wn/{0}@2x.png",
-        Icon);
+        .ToLocalTime().ToString("dddd", CultureInfo.InvariantCulture);
+
+        DayDatetime = DateTimeOffset
+        .FromUnixTimeSeconds(Seconds)
+        .LocalDateTime
+        .ToLocalTime().ToString("dd MMMM yyyy", CultureInfo.InvariantCulture);
+
+        IconUrl = String.Format("https://openweathermap.org/img/wn/{0}@2x.png", Icon);
     }
 }	

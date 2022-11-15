@@ -91,9 +91,7 @@ else
         {
             errorMessages = "Enable location service to us this feature!";
             Console.WriteLine(e.Message.ToString());
-
         }
-
     }
 
     public async Task GetForcast()
@@ -105,14 +103,11 @@ else
         Console.WriteLine("long lat from blazor page" + lon + " lat " + lat);
         weatherData = await getWeather.GetForcast(lon, lat);        
         await Task.CompletedTask;
-
     }
 
     protected override void OnInitialized()
     {
        coords = new(jsRuntime);
     }
-
-
     public void Dispose() => coords?.Dispose();
 }
