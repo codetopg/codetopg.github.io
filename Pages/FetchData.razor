@@ -100,7 +100,7 @@ else
         await GetPosition();
         double lon = location!.Longitude;
         double lat = location.Latitude;
-        Console.WriteLine("long lat from blazor page" + lon + " lat " + lat);
+        //Console.WriteLine("long lat from blazor page" + lon + " lat " + lat);
         weatherData = await getWeather.GetForcast(lon, lat);        
         await Task.CompletedTask;
     }
